@@ -4,6 +4,6 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['email', 'nickname']
+    list_display = ['email', 'nickname', 'phone']
     list_display_links = ['nickname']
     ordering = ['-id']
