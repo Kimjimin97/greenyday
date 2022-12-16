@@ -1,8 +1,15 @@
-import logo from "./logo.svg";
 import "./App.css";
+import Router from "next/router";
+import { KAKAO_AUTH_URL } from "./pages/oauth";
+import { frontUrl } from "./config/config";
 
 function App() {
-  return <div>hello_worlds</div>;
+  return (
+    <div>
+      {" "}
+      <div class="w-full">hello</div>
+    </div>
+  );
 }
 
 export default App;

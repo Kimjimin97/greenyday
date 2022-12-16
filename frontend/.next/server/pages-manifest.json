@@ -1,0 +1,8 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/oauth/callback/kakao": "pages/oauth/callback/kakao.js",
+  "/": "pages/index.js",
+  "/kakaologin": "pages/kakaologin.js"
+}
