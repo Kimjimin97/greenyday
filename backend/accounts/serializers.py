@@ -9,16 +9,25 @@ class SignupSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True) # db에서 긁어올 것이 아니라서
 
     def create(self, validated_data):
-        user = User.objects.create(
+        if "is_kakao" not in validated_data:
+            user = User.objects.create(
+                email=validated_data['email'],
+                nickname=validated_data['nickname'],
+                phone=validated_data['phone'],
+            )
+            user.set_password(validated_data['password'])
+
+        else:
+            user = get_user_model().objects.create(
             email=validated_data['email'],
             nickname=validated_data['nickname'],
+            is_kakao=True,
             phone=validated_data['phone'],
-        )
-        user.set_password(validated_data['password'])
+            )
+            user.set_unusable_password()
 
         user.save()
         return user
-
 
     class Meta:
         model = User

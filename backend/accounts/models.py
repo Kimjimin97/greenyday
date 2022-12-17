@@ -39,7 +39,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     nickname = models.CharField(max_length=50, unique=True)
     phoneNumberRegex = RegexValidator(regex=r'^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$')  # 휴대폰 형식이 01012341234 이것만 됨
-    phone = models.CharField(validators=[phoneNumberRegex], max_length=11, unique=True, blank=True)
+    phone = models.CharField(validators=[phoneNumberRegex], max_length=11, unique=True)
     email = models.EmailField(max_length=30, unique=True, null=False, blank=False)
     is_kakao = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
@@ -53,3 +53,5 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     # 사용자의 username field는 email으로 설정 (이메일로 로그인)
     USERNAME_FIELD = 'email'
+
+
