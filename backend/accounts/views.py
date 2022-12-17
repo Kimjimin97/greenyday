@@ -2,8 +2,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import update_last_login
 import requests
 from django.http import JsonResponse
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
@@ -56,7 +54,6 @@ def kakao_login(request):
 
     token_json = token_request.json()
 
-    
     kakao_access_token = token_json.get("access_token")
     profile_request = requests.post(
         "https://kapi.kakao.com/v2/user/me",
@@ -69,8 +66,7 @@ def kakao_login(request):
         return JsonResponse({'err_msg': 'failed to get email'}, status=status.HTTP_400_BAD_REQUEST)
     nickname = kakao_account.get("profile").get("nickname")
     try:
-        User = get_user_model()
-        user = User.objects.get(email=email)
+        user = get_user_model().objects.get(email=email)
 
         if user.is_kakao:
             token = TokenObtainPairSerializer.get_token(user)
@@ -78,35 +74,15 @@ def kakao_login(request):
             access_token = str(token.access_token)
             update_last_login(None, user)
             results = {
-                'email': email,
-                'nickname': user.nickname,
                 'refresh_token': refresh_token,
                 'access_token': access_token,
             }
-            print(results)
-            return JsonResponse(results, status = status.HTTP_200_OK)
+            return JsonResponse(results, status=status.HTTP_200_OK)
     except get_user_model().DoesNotExist:
-        user = get_user_model().objects.create(
-            email=email,
-            nickname=nickname,
-            is_kakao=True,
-            phone="",
-        )
-
-        user.set_unusable_password()
-        user.save()
-
-        token = TokenObtainPairSerializer.get_token(user)
-        refresh_token = str(token)
-        access_token = str(token.access_token)
-        update_last_login(None, user)
-
         results = {
             'email': email,
-            'nickname': user.nickname,
-            'refresh_token': refresh_token,
-            'access_token': access_token,
+            'nickname': nickname,
         }
-        return JsonResponse(results, status=status.HTTP_201_CREATED)
+        return JsonResponse(results, status=status.HTTP_200_OK)
     else:
         return JsonResponse({'message':'user already exist'}, status=status.HTTP_400_BAD_REQUEST)
