@@ -1,3 +1,4 @@
+import rest_framework_simplejwt
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import update_last_login
 import requests
@@ -41,9 +42,12 @@ def login(request):
 @api_view(['POST'])
 def logout(request):
     refresh_token = request.data["refresh_token"]
-    token = RefreshToken(refresh_token)
-    token.blacklist()
-    return JsonResponse("Successful Logout", status=status.HTTP_200_OK)
+    try:
+        token = RefreshToken(refresh_token)
+        token.blacklist()
+        return JsonResponse({"message" : "Successful Logout"}, status=status.HTTP_200_OK)
+    except(rest_framework_simplejwt.exceptions.TokenError):
+        return JsonResponse({"message" : "refresh_token is invalid or expired"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 def kakao_login(request):
