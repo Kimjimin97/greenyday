@@ -25,7 +25,8 @@ const Kakao = () => {
           console.log(res.data);
           return Router.push('/')
         })
-        .catch(err => console.error(err.message));
+        .catch(err => 
+          console.error(err.response));
       }
 };
 
