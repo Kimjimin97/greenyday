@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Typography } from "antd";
 import { Button, Modal } from "antd";
 const { Title, Text } = Typography;
-import { Divider, Form, Input, Row, Col, DatePicker } from "antd";
+import { Image, Divider, Form, Input, Row, Col, DatePicker } from "antd";
 
 const fontStyle = {
   color: "rgba(48, 47, 47, 1)",
@@ -11,7 +11,7 @@ const fontStyle = {
   fontFamily: "sansneo_light",
 };
 
-const login = () => {
+const Signup = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onFinish = (values) => {
@@ -222,13 +222,19 @@ const login = () => {
 
           <Row gutter={[3, 20]}>
             <Col span={24}>
-              <Text fontSize="14px">
-                “가입하기”를 클릭하면 저희 서비스 이용약관 가입에 동의하게
-                됩니다.
-                <br />
-                이메일과 수신정보는 마이페이지에서 언제든 옵트 아웃하실 수
-                있어요.{" "}
-              </Text>
+              <Row gutter={[10, 10]}>
+                <Col span={1}>
+                  <Image src="/circle.png"></Image>
+                </Col>
+
+                <div fontSize="14px">
+                  “가입하기”를 클릭하면 저희 서비스 이용약관 가입에 동의하게
+                  됩니다.
+                  <br />
+                  이메일과 수신정보는 마이페이지에서 언제든 옵트 아웃하실 수
+                  있어요.{" "}
+                </div>
+              </Row>
             </Col>
             <Col span={24}>
               <Form.Item>
@@ -258,4 +264,4 @@ const login = () => {
     </>
   );
 };
-export default login;
+export default Signup;
